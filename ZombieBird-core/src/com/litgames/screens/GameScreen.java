@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.litgames.gameworld.GameRenderer;
 import com.litgames.gameworld.GameWorld;
+import com.litgames.zbhelpers.InputHandler;
 
 public class GameScreen implements Screen {
 	
@@ -12,9 +13,18 @@ public class GameScreen implements Screen {
 	private GameRenderer renderer;
 	
 	public GameScreen() {
-        Gdx.app.log("GameScreen", "Attached");
-        world = new GameWorld(); // initialize world
+		
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
+		float gameWidth = 136;
+		float gameHeight = screenHeight / (screenWidth/gameWidth);
+		
+		int midPointY = (int) (gameHeight / 2);
+        
+        world = new GameWorld(midPointY); // initialize world
     	renderer = new GameRenderer(world); //initialize renderer
+    	
+    	Gdx.input.setInputProcessor(new InputHandler(world.getBird()));
     }
     @Override
     public void render(float delta) {
